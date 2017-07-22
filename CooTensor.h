@@ -16,7 +16,7 @@ template <size_t dims>
 class CooTensor {
 public:
     void add(uint32_t coords[dims], numericVal val) {
-        CooTensorElement<dims> elem{coords, val};
+        CooTensorElement<dims, numericVal> elem{coords, val};
         if(tensorElements_.contains(elem)) {
             tensorElements_.find(elem)->replaceValue(val);
         } else {
@@ -25,7 +25,7 @@ public:
     }
 
     bool contains(uint32_t coords[dims]) {
-        CooTensorElement<dims> elem{coords, 0};
+        CooTensorElement<dims, numericVal> elem{coords, 0};
         return tensorElements_.contains(elem);
     }
 
@@ -34,7 +34,7 @@ public:
     }
 
     numericVal getValueAt(uint32_t coords[dims]) {
-        CooTensorElement<dims> elem{coords, 0};
+        CooTensorElement<dims, numericVal> elem{coords, 0};
         if(!tensorElements_.contains(elem)) return 0;
         else return tensorElements_.find(elem)->getValue();
     }
@@ -57,10 +57,10 @@ public:
 
         auto prevCooTensorElem = tensorElements_[0];
         for(size_t i = 0; i < dims - 1; ++i) {
-            created.modes[i].push_back(prevCooTensorElem.getCoords()[i]);
+            created.modes[i].push_back(prevCooTensorElem.getCoords_()[i]);
             created.indices[i].push_back(0);
         }
-        created.modes[dims - 1].push_back(prevCooTensorElem.getCoords()[dims - 1]);
+        created.modes[dims - 1].push_back(prevCooTensorElem.getCoords_()[dims - 1]);
 
 
         created.vals_.push_back(prevCooTensorElem.getValue());
@@ -70,8 +70,8 @@ public:
             //find lowest indices where the mode changes.
             size_t lowestModeChanged;
             for(lowestModeChanged = 0; lowestModeChanged < dims - 1; ++lowestModeChanged) {
-                if(prevCooTensorElem.getCoords()[lowestModeChanged] !=
-                        newCooTensorElem.getCoords()[lowestModeChanged]) {
+                if(prevCooTensorElem.getCoords_()[lowestModeChanged] !=
+                   newCooTensorElem.getCoords_()[lowestModeChanged]) {
                     break;
                 }
             }
@@ -83,7 +83,7 @@ public:
             //it is how many got added since the mode last changed (addedperlevel array) plus the last indices
             //afterwards, set entries for lower modes in addedperlevel array to 1 again
             for(size_t currentMode = lowestModeChanged; currentMode < dims - 1; ++currentMode) {
-                created.modes[currentMode].push_back(newCooTensorElem.getCoords()[currentMode]);
+                created.modes[currentMode].push_back(newCooTensorElem.getCoords_()[currentMode]);
                 auto indexToAdd = addedPerLevel[currentMode] +
                                   *(created.indices[currentMode].end() - 1);
                 created.indices[currentMode].push_back(indexToAdd);
@@ -91,7 +91,7 @@ public:
             }
 
             //now simply add the new last mode, the indices is just its position in the vector
-            created.modes[dims - 1].push_back(newCooTensorElem.getCoords()[dims - 1]);
+            created.modes[dims - 1].push_back(newCooTensorElem.getCoords_()[dims - 1]);
 
             created.vals_.push_back(newCooTensorElem.getValue());
 
@@ -101,12 +101,8 @@ public:
         return created;
     }
 
-    void reserve(size_t amt) {
-        tensorElements_.reserve(amt);
-    }
-
 private:
-    SortedVector<dims> tensorElements_;
+    SortedVector<CooTensorElement<dims, numericVal>> tensorElements_;
 };
 
 

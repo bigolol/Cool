@@ -1,1 +1,1 @@
-/usr/bin/c++   -fopenmp -g    CMakeFiles/Cool.dir/main.cpp.o  -o Cool 
+/usr/bin/c++    -fopenmp -g    CMakeFiles/Cool.dir/main.cpp.o  -o Cool 

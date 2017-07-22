@@ -8,15 +8,14 @@
 #include <vector>
 #include <algorithm>
 #include <ostream>
-#include "CooTensorElement.h"
 
-template <size_t dims>
+template <typename T>
 class SortedVector {
 public:
     SortedVector(){}
 
-    SortedVector(const std::initializer_list<CooTensorElement<dims>>& es) {
-        for(CooTensorElement<dims> t : es) {
+    SortedVector(const std::initializer_list<T>& es) {
+        for(T t : es) {
             vec_.push_back(t);
         }
         std::sort(vec_.begin(), vec_.end());
@@ -30,28 +29,28 @@ public:
         return vec_.end();
     }
 
-    void addElement(CooTensorElement<dims> e) {
+    void addElement(T e) {
         vec_.push_back(e);
         std::sort(vec_.begin(), vec_.end());
     }
 
-    void addElements(const std::vector<CooTensorElement<dims>>& es) {
-        for(CooTensorElement<dims> t : es) {
+    void addElements(const std::vector<T>& es) {
+        for(T t : es) {
             vec_.push_back(t);
         }
         std::sort(vec_.begin(), vec_.end());
     }
 
-    auto find(const CooTensorElement<dims>& e) {
+    auto find(const T& e) {
         return std::lower_bound(vec_.begin(), vec_.end(), e);
     }
 
-    size_t getIndexFor(const CooTensorElement<dims>& e) const {
+    size_t getIndexFor(const T& e) const {
         return std::lower_bound(vec_.begin(), vec_.end(), e) - vec_.begin();
     }
 
 
-    CooTensorElement<dims>& operator[](size_t i) {
+    T& operator[](size_t i) {
         return vec_[i];
     }
 
@@ -59,24 +58,20 @@ public:
         return vec_.size();
     }
 
-    void reserve(size_t amt) {
-        vec_.reserve(amt);
-    }
-
-    bool contains(const CooTensorElement<dims>& e) const {
+    bool contains(const T& e) const {
         auto iter = std::lower_bound(vec_.begin(), vec_.end(), e);
         return  iter != vec_.end() && !(e < *iter);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const SortedVector &vector) {
-        for(const CooTensorElement<dims>& t : vector.vec_) {
+        for(const T& t : vector.vec_) {
             os << t << '\n';
         }
         return os;
     }
 
 private:
-std::vector<CooTensorElement<dims>> vec_;
+std::vector<T> vec_;
 };
 
 #endif //COOL_SORTEDVECTOR_H
