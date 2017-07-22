@@ -1,0 +1,4 @@
+/home/holger/clion/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/holger/Studium/BA/Code/Tensor/Cool
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/holger/Studium/BA/Code/Tensor/Cool/cmake-build-debug
