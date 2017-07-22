@@ -2,27 +2,51 @@
 // Created by holger on 22.07.17.
 //
 
-#include <cstddef>
-#include <cstdint>
-#include <ostream>
 
 #ifndef COOL_COOTENSORELEMENT_H
 #define COOL_COOTENSORELEMENT_H
-template <size_t size, typename E>
+
+#include "typedefs.h"
+
+template <size_t size>
 class CooTensorElement {
 public:
-    CooTensorElement(uint32_t coords[size], E e) {
+
+    CooTensorElement() = delete ;
+    CooTensorElement(CooTensorElement&& other) {
+        e_ = other.e_;
+        for(size_t i = 0; i < size; ++i) {
+            coords_[i] = other.coords_[i];
+        }
+    }
+
+    CooTensorElement(const CooTensorElement& other) {
+        e_ = other.e_;
+        for(size_t i = 0; i < size; ++i) {
+            coords_[i] = other.coords_[i];
+        }
+    }
+
+    CooTensorElement(uint32_t coords[size], numericVal e) {
         e_ = e;
         for(size_t i = 0; i < size; ++i) {
             coords_[i] = coords[i];
         }
     }
 
-    void replaceValue(E newValue) {
+    CooTensorElement<size>& operator=(const CooTensorElement &rhs) {
+        e_ = rhs.e_;
+        for(size_t i = 0; i < size; ++i) {
+            coords_[i] = rhs.coords_[i];
+        }
+        return *this;
+    }
+
+    void replaceValue(numericVal newValue) {
         e_ = newValue;
     }
 
-    E getValue() const {
+    numericVal getValue() const {
         return e_;
     }
 
@@ -40,6 +64,12 @@ public:
     }
 
     bool operator<(const CooTensorElement &rhs) const {
+        auto i1 = coords_[0];
+        auto i2 = coords_[1];
+        auto i3 = coords_[2];
+        auto i4 = coords_[3];
+        auto i5 = coords_[4];
+        auto i6 = coords_[5];
         for(size_t i = 0; i < size; ++i) {
             if(coords_[i] < rhs.coords_[i]) {
                 return true;
@@ -67,12 +97,12 @@ public:
         os << element.e_;
     }
 
-    const uint32_t *getCoords_() const {
+    const uint32_t *getCoords() const {
         return coords_;
     }
 
 private:
-    E e_;
+    numericVal e_;
     uint32_t coords_[size];
 };
 

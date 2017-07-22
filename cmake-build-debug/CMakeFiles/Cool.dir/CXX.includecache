@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -21,12 +21,8 @@ CsfTensor.h
 /home/holger/Studium/BA/Code/Tensor/Cool/CsfTensor.h
 
 /home/holger/Studium/BA/Code/Tensor/Cool/CooTensorElement.h
-cstddef
--
-cstdint
--
-ostream
--
+typedefs.h
+/home/holger/Studium/BA/Code/Tensor/Cool/typedefs.h
 
 /home/holger/Studium/BA/Code/Tensor/Cool/CsfTensor.h
 vector
@@ -47,14 +43,12 @@ algorithm
 -
 ostream
 -
+CooTensorElement.h
+/home/holger/Studium/BA/Code/Tensor/Cool/CooTensorElement.h
 
 /home/holger/Studium/BA/Code/Tensor/Cool/main.cpp
 iostream
 -
-SortedVector.h
-/home/holger/Studium/BA/Code/Tensor/Cool/SortedVector.h
-CooTensorElement.h
-/home/holger/Studium/BA/Code/Tensor/Cool/CooTensorElement.h
 CooTensor.h
 /home/holger/Studium/BA/Code/Tensor/Cool/CooTensor.h
 
