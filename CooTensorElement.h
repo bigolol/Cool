@@ -43,8 +43,6 @@ public:
         for(size_t i = 0; i < size; ++i) {
             if(coords_[i] < rhs.coords_[i]) {
                 return true;
-            } else if(coords_[i] > rhs.coords_[i]) {
-                return false;
             }
         }
         return false;

@@ -40,6 +40,7 @@ public:
         return vals_[posInArr];
     }
 
+
 private:
 };
 #endif //COOL_CSFTENSOR_H

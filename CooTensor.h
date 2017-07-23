@@ -11,24 +11,32 @@
 #include "CooTensorElement.h"
 #include "typedefs.h"
 #include "CsfTensor.h"
-#include <boost/container/flat_set.hpp>
 
 template <size_t dims>
 class CooTensor {
 public:
     void add(uint32_t coords[dims], numericVal val) {
         CooTensorElement<dims, numericVal> elem{coords, val};
-        tensorElemSet_.insert(elem);
+        if(tensorElements_.contains(elem)) {
+            tensorElements_.find(elem)->replaceValue(val);
+        } else {
+            tensorElements_.addElement(elem);
+        }
+    }
+
+    bool contains(uint32_t coords[dims]) {
+        CooTensorElement<dims, numericVal> elem{coords, 0};
+        return tensorElements_.contains(elem);
     }
 
     size_t getAmtVals() const {
-        return tensorElemSet_.size();
+        return tensorElements_.size();
     }
 
     numericVal getValueAt(uint32_t coords[dims]) {
         CooTensorElement<dims, numericVal> elem{coords, 0};
         if(!tensorElements_.contains(elem)) return 0;
-        else return tensorElemSet_.find(elem)->getValue();
+        else return tensorElements_.find(elem)->getValue();
     }
 
     friend std::ostream &operator<<(std::ostream &os, const CooTensor &tensor) {
@@ -94,7 +102,7 @@ public:
     }
 
 private:
-    boost::container::flat_set<CooTensorElement<dims, numericVal>> tensorElemSet_;
+    SortedVector<CooTensorElement<dims, numericVal>> tensorElements_;
 };
 
 
