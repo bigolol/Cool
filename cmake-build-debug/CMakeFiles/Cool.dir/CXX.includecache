@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -19,6 +19,8 @@ typedefs.h
 /home/holger/Studium/BA/Code/Tensor/Cool/typedefs.h
 CsfTensor.h
 /home/holger/Studium/BA/Code/Tensor/Cool/CsfTensor.h
+boost/container/flat_set.hpp
+-
 
 /home/holger/Studium/BA/Code/Tensor/Cool/CooTensorElement.h
 cstddef
