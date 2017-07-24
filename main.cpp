@@ -4,6 +4,4 @@
 #include "CooTensor.h"
 
 int main() {
-    
-
 }
